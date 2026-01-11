@@ -1,0 +1,14 @@
+[gd_resource type="NoiseTexture2D" load_steps=2 format=3 uid="uid://cloudnoisetex"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_cloud"]
+noise_type = 3
+seed = 123
+frequency = 0.01
+fractal_type = 1
+fractal_octaves = 3
+
+[resource]
+width = 512
+height = 512
+seamless = true
+noise = SubResource("FastNoiseLite_cloud")
