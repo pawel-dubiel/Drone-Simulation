@@ -1,0 +1,69 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://src/client/visuals/DroneVisuals.gd" id="1_vis"]
+[ext_resource type="AudioStream" path="res://rotor.wav" id="2_sound"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_body"]
+size = Vector3(0.5, 0.2, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_arm"]
+size = Vector3(0.1, 0.05, 1.4)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rotor"]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 0.02
+
+[node name="DroneVisuals" type="Node3D"]
+script = ExtResource("1_vis")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_body")
+
+[node name="Arm1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
+mesh = SubResource("BoxMesh_arm")
+
+[node name="Rotor1" type="MeshInstance3D" parent="Arm1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.4)
+mesh = SubResource("CylinderMesh_rotor")
+
+[node name="Audio" type="AudioStreamPlayer3D" parent="Arm1/Rotor1"]
+stream = ExtResource("2_sound")
+unit_size = 3.0
+autoplay = true
+doppler_tracking = 2
+
+[node name="Rotor2" type="MeshInstance3D" parent="Arm1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -0.4)
+mesh = SubResource("CylinderMesh_rotor")
+
+[node name="Audio" type="AudioStreamPlayer3D" parent="Arm1/Rotor2"]
+stream = ExtResource("2_sound")
+unit_size = 3.0
+autoplay = true
+doppler_tracking = 2
+
+[node name="Arm2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 0, 0)
+mesh = SubResource("BoxMesh_arm")
+
+[node name="Rotor3" type="MeshInstance3D" parent="Arm2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.4)
+mesh = SubResource("CylinderMesh_rotor")
+
+[node name="Audio" type="AudioStreamPlayer3D" parent="Arm2/Rotor3"]
+stream = ExtResource("2_sound")
+unit_size = 3.0
+autoplay = true
+doppler_tracking = 2
+
+[node name="Rotor4" type="MeshInstance3D" parent="Arm2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -0.4)
+mesh = SubResource("CylinderMesh_rotor")
+
+[node name="Audio" type="AudioStreamPlayer3D" parent="Arm2/Rotor4"]
+stream = ExtResource("2_sound")
+unit_size = 3.0
+autoplay = true
+doppler_tracking = 2

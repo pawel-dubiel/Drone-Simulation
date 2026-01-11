@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/simulation/drone/DronePhysics.gd" id="1_physics"]
+[ext_resource type="Script" path="res://src/simulation/components/FlightComputer.gd" id="2_fc"]
+[ext_resource type="Script" path="res://src/simulation/components/DroneRadioReceiver.gd" id="3_rx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_body"]
+size = Vector3(0.5, 0.2, 0.5)
+
+[node name="DronePhysics" type="RigidBody3D" node_paths=PackedStringArray("flight_computer")]
+collision_layer = 1
+collision_mask = 1
+script = ExtResource("1_physics")
+flight_computer = NodePath("FlightComputer")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_body")
+
+[node name="FlightComputer" type="Node" parent="."]
+script = ExtResource("2_fc")
+
+[node name="DroneRadioReceiver" type="Node" parent="." node_paths=PackedStringArray("flight_computer")]
+script = ExtResource("3_rx")
+flight_computer = NodePath("../FlightComputer")
