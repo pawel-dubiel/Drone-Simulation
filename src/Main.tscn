@@ -61,3 +61,5 @@ transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0,
 target_path = NodePath("../DroneVisuals")
 
 [node name="HUD" parent="ClientDomain" instance=ExtResource("5_hud")]
+
+[connection signal="time_changed" from="Environment/WeatherSystem" to="ClientDomain/HUD" method="update_time"]

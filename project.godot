@@ -18,3 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 SignalBroker="*res://src/core/SignalBroker.gd"
+WorldConfig="*res://src/core/WorldConfig.gd"
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true

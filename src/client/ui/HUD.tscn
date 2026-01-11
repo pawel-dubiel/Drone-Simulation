@@ -37,6 +37,10 @@ text = "SPD: 0.0 m/s"
 layout_mode = 2
 text = "P:0 R:0 Y:0"
 
+[node name="Time" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "06-21 12:00:00"
+
 [node name="ClearCache" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
 text = "Clear Cache"

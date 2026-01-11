@@ -4,12 +4,16 @@ extends Control
 @onready var lbl_altitude = $Panel/VBoxContainer/Altitude
 @onready var lbl_speed = $Panel/VBoxContainer/Speed
 @onready var lbl_attitude = $Panel/VBoxContainer/Attitude
+@onready var lbl_time = $Panel/VBoxContainer/Time
 @onready var btn_clear_cache = $Panel/VBoxContainer/ClearCache
 
 func _ready():
 	SignalBroker.simulation_state_snapshot.connect(_on_state)
 	SignalBroker.control_command_received.connect(_on_cmd)
 	btn_clear_cache.pressed.connect(_on_clear_cache_pressed)
+
+func update_time(h: int, m: int, s: int, month: int, day: int):
+	lbl_time.text = "%02d-%02d %02d:%02d:%02d" % [month, day, h, m, s]
 
 func _on_cmd(thr, _p, _r, _y, _res):
 	lbl_throttle.text = "THR: %d%%" % (thr * 100)

@@ -8,10 +8,6 @@ extends Node3D
 @export var max_render_distance: int = 8 # Maximum radius in chunks
 @export var height_factor: float = 100.0 # Height in meters to add 1 chunk to radius
 
-# Tatra Start Point (Zakopane)
-@export var start_lat: float = 49.2992
-@export var start_lon: float = 19.9496
-
 var target: Node3D
 var active_chunks = {} # {Vector2i: TerrainChunk}
 var map_loader: MapLoader
@@ -42,10 +38,10 @@ func _ready():
 	
 	# 1. Calculate Tile Grid Properties
 	var n = pow(2.0, zoom)
-	var lat_rad = deg_to_rad(start_lat)
+	var lat_rad = deg_to_rad(WorldConfig.latitude)
 	
 	# Tile X/Y for Start Location
-	var xtile = int(floor(n * ((start_lon + 180.0) / 360.0)))
+	var xtile = int(floor(n * ((WorldConfig.longitude + 180.0) / 360.0)))
 	var ytile = int(floor(n * (1.0 - (log(tan(lat_rad) + 1.0/cos(lat_rad)) / PI)) / 2.0))
 	origin_tile = Vector2i(xtile, ytile)
 	
