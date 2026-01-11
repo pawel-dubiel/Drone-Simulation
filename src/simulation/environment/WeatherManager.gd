@@ -27,8 +27,6 @@ enum WeatherType {
 @export var time_scale: float = 0.0002777 # 1.0 / 3600.0 (1 real sec = 1 game sec)
 @export var use_system_time: bool = false # Sync with OS clock
 
-signal time_changed(h: int, m: int, s: int, month: int, day: int)
-
 # Internal State
 var current_weather: WeatherType = WeatherType.CLEAR
 var current_cloud_coverage: float = 0.0
@@ -57,6 +55,7 @@ func _ready() -> void:
 		env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SOFTLIGHT
 		
 	change_weather(WeatherType.PARTLY_CLOUDY, true)
+	_emit_weather_state()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
@@ -94,7 +93,7 @@ func _emit_time_signal() -> void:
 	var s = int(total_seconds) % 60
 	
 	var date_dict = _get_date_from_doy(WorldConfig.start_day_of_year)
-	time_changed.emit(h, m, s, date_dict.month, date_dict.day)
+	SignalBroker.weather_time_changed.emit(h, m, s, date_dict.month, date_dict.day)
 
 func _get_date_from_doy(doy: int) -> Dictionary:
 	var days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -231,6 +230,11 @@ func change_weather(new_weather: WeatherType, instant: bool = false) -> void:
 		current_fog_density = target_fog_density
 		current_sun_energy = target_sun_energy
 		current_rain_intensity = target_rain_intensity
+	
+	_emit_weather_state()
+
+func _emit_weather_state() -> void:
+	SignalBroker.weather_state_changed.emit(current_weather, target_cloud_coverage, target_rain_intensity)
 
 func _interpolate_weather_values(delta: float) -> void:
 	var t = delta * transition_speed

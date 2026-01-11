@@ -10,6 +10,7 @@ extends Control
 func _ready():
 	SignalBroker.simulation_state_snapshot.connect(_on_state)
 	SignalBroker.control_command_received.connect(_on_cmd)
+	SignalBroker.weather_time_changed.connect(update_time)
 	btn_clear_cache.pressed.connect(_on_clear_cache_pressed)
 
 func update_time(h: int, m: int, s: int, month: int, day: int):
