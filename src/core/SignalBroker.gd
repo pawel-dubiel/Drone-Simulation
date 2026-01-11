@@ -14,7 +14,8 @@ signal simulation_state_snapshot(snapshot: Dictionary)
 
 # --- Weather Channel ---
 signal weather_time_changed(h: int, m: int, s: int, month: int, day: int)
-signal weather_state_changed(weather_type: int, cloud_coverage: float, rain_intensity: float)
+signal weather_state_changed(data: Dictionary)
+signal weather_command_requested(command: String, value: Variant)
 
 # Config/Meta events
 signal debug_log(msg: String)

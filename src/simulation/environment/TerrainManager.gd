@@ -3,7 +3,7 @@ extends Node3D
 # Infinite Satellite Terrain Manager
 # Aligns chunks to Real-World Web Mercator Tiles
 
-@export var target_path: NodePath
+var _last_pos: Vector3 = Vector3.ZERO
 @export var min_render_distance: int = 2 # Minimum radius in chunks
 @export var max_render_distance: int = 8 # Maximum radius in chunks
 @export var height_factor: float = 100.0 # Height in meters to add 1 chunk to radius
@@ -26,8 +26,7 @@ var tile_size_meters: float = 0.0 # Calculated at runtime
 var origin_tile: Vector2i # The tile coordinate that corresponds to World(0,0,0)
 
 func _ready():
-	if target_path:
-		target = get_node(target_path)
+	SignalBroker.simulation_state_snapshot.connect(_on_simulation_snapshot)
 	
 	map_loader = $MapLoader
 	height_loader = $HeightMapLoader
@@ -76,11 +75,13 @@ func _ready():
 	height_loader.height_failed.connect(_on_height_reference_failed)
 	height_loader.request_tile(height_reference_tile.x, height_reference_tile.y)
 
+func _on_simulation_snapshot(snapshot: Dictionary):
+	_last_pos = snapshot.get("position", Vector3.ZERO)
+
 func _update_chunks():
-	if !target: return
 	if !height_reference_ready: return
 	
-	var pos = target.global_position
+	var pos = _last_pos
 	
 	# Which "Game Grid" cell are we in? (Each cell is 1 map tile size)
 	# Since World(0,0,0) is the Top-Left corner of 'origin_tile'
