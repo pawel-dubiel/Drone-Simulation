@@ -1,7 +1,7 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3 uid="uid://ienfyffdvwyd"]
 
-[ext_resource type="Script" path="res://src/input/InputDriver.gd" id="1_input"]
-[ext_resource type="Script" path="res://src/client/PilotUplink.gd" id="1_uplink"]
+[ext_resource type="Script" uid="uid://c67m3i1uclyym" path="res://src/input/InputDriver.gd" id="1_input"]
+[ext_resource type="Script" uid="uid://5bwnqvjuu175" path="res://src/client/PilotUplink.gd" id="1_uplink"]
 [ext_resource type="PackedScene" path="res://src/simulation/drone/DronePhysics.tscn" id="2_physics"]
 [ext_resource type="PackedScene" path="res://src/client/visuals/DroneVisuals.tscn" id="3_visuals"]
 [ext_resource type="PackedScene" path="res://src/client/camera/CameraRig.tscn" id="4_camera_rig"]
@@ -18,11 +18,7 @@ sky_material = SubResource("ProceduralSkyMaterial_1")
 [sub_resource type="Environment" id="Environment_realism"]
 background_mode = 2
 sky = SubResource("Sky_1")
-tonemap_mode = 2 # Filmic
-ssao_enabled = false
-sdfgi_enabled = false
-glow_enabled = false
-volumetric_fog_enabled = false
+tonemap_mode = 2
 
 [node name="MainSimulation" type="Node3D"]
 
@@ -42,7 +38,6 @@ environment = SubResource("Environment_realism")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
-light_energy = 1.0
 shadow_enabled = true
 
 [node name="TerrainManager" parent="Environment" instance=ExtResource("6_terrain")]

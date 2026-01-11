@@ -57,9 +57,8 @@ func request_tile(x: int, y: int):
 	http.request_completed.connect(_on_request_completed.bind(x, y, http))
 	active_requests[key] = http
 	
-	# Google Satellite Hybrid (Unofficial)
-	# This usually has the best coverage.
-	var url = "https://mt1.google.com/vt/lyrs=y&x=%d&y=%d&z=%d" % [x, y, zoom_level]
+	# Google Satellite (no labels) (Unofficial)
+	var url = "https://mt1.google.com/vt/lyrs=s&x=%d&y=%d&z=%d&scale=2" % [x, y, zoom_level]
 	print("MapLoader: Requesting ", url)
 	
 	var err = http.request(url, ["User-Agent: " + user_agent])

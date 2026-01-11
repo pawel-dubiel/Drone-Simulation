@@ -6,9 +6,9 @@ extends Node3D
 @export var target_path: NodePath
 @export var render_distance: int = 2 # Radius in chunks
 
-# Paris Start Point (Eiffel Tower)
-@export var start_lat: float = 48.8584
-@export var start_lon: float = 2.2945
+# Tatra Start Point (Zakopane)
+@export var start_lat: float = 49.2992
+@export var start_lon: float = 19.9496
 
 var target: Node3D
 var active_chunks = {} # {Vector2i: TerrainChunk}
