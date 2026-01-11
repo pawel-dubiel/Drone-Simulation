@@ -4,7 +4,9 @@ extends Node3D
 # Aligns chunks to Real-World Web Mercator Tiles
 
 @export var target_path: NodePath
-@export var render_distance: int = 2 # Radius in chunks
+@export var min_render_distance: int = 2 # Minimum radius in chunks
+@export var max_render_distance: int = 8 # Maximum radius in chunks
+@export var height_factor: float = 100.0 # Height in meters to add 1 chunk to radius
 
 # Tatra Start Point (Zakopane)
 @export var start_lat: float = 49.2992
@@ -94,9 +96,15 @@ func _update_chunks():
 	var chunk_z = int(floor(pos.z / tile_size_meters))
 	var center_chunk = Vector2i(chunk_x, chunk_z)
 	
+	# Calculate dynamic render distance based on height
+	var current_rd = min_render_distance
+	if height_factor > 0.0:
+		var extra_chunks = int(max(0.0, pos.y) / height_factor)
+		current_rd = clampi(min_render_distance + extra_chunks, min_render_distance, max_render_distance)
+	
 	var needed = []
-	for x in range(-render_distance, render_distance + 1):
-		for z in range(-render_distance, render_distance + 1):
+	for x in range(-current_rd, current_rd + 1):
+		for z in range(-current_rd, current_rd + 1):
 			needed.append(center_chunk + Vector2i(x, z))
 	
 	# Remove old

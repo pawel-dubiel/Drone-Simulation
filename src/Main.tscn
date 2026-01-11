@@ -45,7 +45,6 @@ sky_material = ExtResource("8_skymat")
 
 [node name="TerrainManager" parent="Environment" instance=ExtResource("6_terrain")]
 target_path = NodePath("../../SimulationDomain/DronePhysics")
-render_distance = 5
 
 [node name="SimulationDomain" type="Node3D" parent="."]
 
