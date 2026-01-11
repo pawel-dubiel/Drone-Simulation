@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/simulation/environment/TerrainManager.gd" id="1_mgr"]
+[ext_resource type="Script" path="res://src/simulation/environment/MapLoader.gd" id="2_loader"]
+[ext_resource type="Script" path="res://src/simulation/environment/HeightMapLoader.gd" id="3_height_loader"]
+
+[node name="TerrainManager" type="Node3D"]
+script = ExtResource("1_mgr")
+
+[node name="MapLoader" type="Node" parent="."]
+script = ExtResource("2_loader")
+
+[node name="HeightMapLoader" type="Node" parent="."]
+script = ExtResource("3_height_loader")

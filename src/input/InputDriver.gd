@@ -28,7 +28,8 @@ func _setup_key_maps():
 		"drone_pitch_backward": [KEY_S],
 		"drone_roll_left": [KEY_A],
 		"drone_roll_right": [KEY_D],
-		"drone_reset": [KEY_R]
+		"drone_reset": [KEY_R],
+		"camera_toggle_topdown": [KEY_TAB]
 	}
 	for action in actions:
 		if not InputMap.has_action(action):

@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://src/client/visuals/DroneVisuals.tscn" id="3_visuals"]
 [ext_resource type="PackedScene" path="res://src/client/camera/CameraRig.tscn" id="4_camera_rig"]
 [ext_resource type="PackedScene" path="res://src/client/ui/HUD.tscn" id="5_hud"]
+[ext_resource type="PackedScene" path="res://src/simulation/environment/TerrainManager.tscn" id="6_terrain"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -14,20 +15,14 @@ ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 [sub_resource type="Sky" id="Sky_1"]
 sky_material = SubResource("ProceduralSkyMaterial_1")
 
-[sub_resource type="Environment" id="Environment_1"]
+[sub_resource type="Environment" id="Environment_realism"]
 background_mode = 2
 sky = SubResource("Sky_1")
-tonemap_mode = 2
-glow_enabled = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
-albedo_color = Color(0.3, 0.3, 0.3, 1)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
-material = SubResource("StandardMaterial3D_floor")
-size = Vector2(100, 100)
-
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_floor"]
+tonemap_mode = 2 # Filmic
+ssao_enabled = false
+sdfgi_enabled = false
+glow_enabled = false
+volumetric_fog_enabled = false
 
 [node name="MainSimulation" type="Node3D"]
 
@@ -43,46 +38,26 @@ input_driver = NodePath("../InputDriver")
 [node name="Environment" type="Node3D" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
-environment = SubResource("Environment_1")
+environment = SubResource("Environment_realism")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+light_energy = 1.0
 shadow_enabled = true
 
-[node name="Floor" type="StaticBody3D" parent="Environment"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Floor"]
-shape = SubResource("WorldBoundaryShape3D_floor")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Floor"]
-mesh = SubResource("PlaneMesh_floor")
-
-[node name="Obstacle1" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -10)
-size = Vector3(2, 2, 2)
-material = SubResource("StandardMaterial3D_floor")
-
-[node name="Obstacle2" type="CSGTorus3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 5, 5, -15)
-inner_radius = 2.0
-outer_radius = 2.5
-sides = 16
-
-[node name="Obstacle3" type="CSGTorus3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -5, 3, -25)
-inner_radius = 2.0
-outer_radius = 2.5
-sides = 16
+[node name="TerrainManager" parent="Environment" instance=ExtResource("6_terrain")]
+target_path = NodePath("../../SimulationDomain/DronePhysics")
+render_distance = 5
 
 [node name="SimulationDomain" type="Node3D" parent="."]
 
 [node name="DronePhysics" parent="SimulationDomain" instance=ExtResource("2_physics")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 60, 0)
 
 [node name="ClientDomain" type="Node3D" parent="."]
 
 [node name="DroneVisuals" parent="ClientDomain" instance=ExtResource("3_visuals")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 60, 0)
 
 [node name="CameraRig" parent="ClientDomain" instance=ExtResource("4_camera_rig")]
 transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 3, 5)
